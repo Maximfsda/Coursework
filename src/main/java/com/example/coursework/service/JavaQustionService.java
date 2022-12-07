@@ -1,9 +1,11 @@
 package com.example.coursework.service;
 
+import com.example.coursework.exception.UnsufficentQuestionException;
 import com.example.coursework.model.Question;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
-
+@Service
 public class JavaQustionService implements QuestionService {
 
     private final static Random RANDOM = new Random();
@@ -35,6 +37,9 @@ public class JavaQustionService implements QuestionService {
 
     @Override
     public Question getRandomQuestion() {
+        if(questions.isEmpty()){
+            throw new UnsufficentQuestionException();
+        }
         return questions.stream()
                 .skip(RANDOM.nextInt(0, questions.size()))
                 .findFirst()
